@@ -50,6 +50,7 @@
 
 import axios from 'axios'
 import {IP, PUERTO} from '../../../config/parametros'
+import { minix } from '@/components/functions/alertas'
 
 export default {
     name: 'ModalBusqueda',
@@ -70,11 +71,23 @@ export default {
         async buscar_miembros(){
 
             if (this.busqueda == '' || this.busqueda == null) {
-                alert('El campo no puede ir vacio')
+                minix({icon: 'error', mensaje: 'El campo no puede estar vacío', tiempo: 3000})
+                document.getElementById('campo_buscar_').focus()
             }else{
 
                 let datos = await axios.get(`http://${IP}:${PUERTO}/api/miembros/nombre/${this.busqueda.toUpperCase()}`, this.$store.state.token)
-                this.resultados = datos.data
+
+                if (datos.data.message) {
+                    minix({icon: 'info', mensaje: datos.data.message, tiempo: 3000})
+                    document.getElementById('campo_buscar_').focus()
+                    this.busqueda = ''
+                    this.resultados = []
+                }else{
+                    this.resultados = datos.data
+                    document.getElementById('campo_buscar_').focus()
+                    this.busqueda = ''
+                }
+
 
             }
         }
