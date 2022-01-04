@@ -43,18 +43,6 @@
                     Miembros
                 </div>
             </div>
-            <div class="submenu_modulo">
-                <div class="submenu_modulo_icon">
-                    <i class="fas fa-dollar-sign"></i>
-                </div>
-                <div class="submenu_modulo_texto" @click="set_submodulo('pagos')">
-                    Ficha miembro
-                </div>
-            </div>
-           
-
-            
-
 
         </div>
 

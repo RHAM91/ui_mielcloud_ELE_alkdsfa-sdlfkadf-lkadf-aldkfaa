@@ -79,7 +79,7 @@ async function createWindow() {
     win.loadURL('app://./index.html')
   }
 
-  actualizacion = setInterval(buscarActualizacion, 5 * 60 * 1000) // para cambiar el tiempo del intervalo em minutos, modificar solo el primer 60
+  actualizacion = setInterval(buscarActualizacion, 10 * 60 * 1000) // para cambiar el tiempo del intervalo em minutos, modificar solo el primer 60
 
 }
 

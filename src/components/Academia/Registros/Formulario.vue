@@ -15,11 +15,11 @@
                         {{info_item.nombre}}
                     </h2>
                 </b-col>
-                <b-col sm="11" class="mt-3">
+                <b-col sm="10" class="mt-3">
                     <label for="">DPI*</label>
                     <b-form-input type="text" size="sm" v-model="dpi" readonly required></b-form-input>
                 </b-col>
-                <b-col sm="1" class="mt-3">
+                <b-col sm="2" class="mt-3">
                     <b-button type="button" block size="sm" variant="danger" style="margin-top: 31px;" @click="buscarMiembro">Búscar</b-button>
                 </b-col>
                 <b-col sm="6" class="mt-3">

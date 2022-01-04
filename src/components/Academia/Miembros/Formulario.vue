@@ -1,101 +1,93 @@
 <template>
     <b-container fluid="">
-        <form @submit.prevent="guardar">
-            <b-row>
-                <b-col sm="12" class="mt-3">
-                    <h1>
-                        Registro de nuevo miembro
-                    </h1>
-                </b-col>
-                <b-col sm="3" class="mt-5">
-                    <label for="">DPI</label>
-                    <b-form-input type="text" id="dpi_miembro" size="sm" v-model="dpi" required autocomplete="off"></b-form-input>
-                </b-col>
-                <b-col sm="9" class="mt-5">
-                    <label for="">Nombre completo</label>
-                    <b-form-input type="text" size="sm" v-model="nombre" required autocomplete="off"></b-form-input>
-                </b-col>
-                <b-col sm="12" class="mt-3">
-                    <label for="">Iglesia</label>
-                    <!-- <b-form-input type="text" size="sm" v-model="iglesia" required></b-form-input> -->
-                    <select class="form-control form-control-sm" v-model="iglesia">
-                        <option value="">Selecciona</option>
-                        <option v-for="(item, index) in iglesias" :key="index" :value="item.iglesia">{{item.iglesia}}</option>
-                    </select>
-                </b-col>
-                <b-col sm="6" class="mt-3">
-                    <label for="">Cargo</label>
-                    <select class="form-control form-control-sm" v-model="cargo">
-                        <option value="">Selecciona</option>
-                        <option value="Oveja">Oveja</option>
-                        <option value="Diacono">Diacono</option>
-                    </select>
-                </b-col>
-                <b-col sm="6" class="mt-3">
-                    <label for="">País</label>
-                    <select class="form-control form-control-sm" v-model="pais">
-                        <option value="">Selecciona</option>
-                        <option v-for="(item, index) in paises" :key="index" :value="item.pais">{{item.pais}}</option>
-                    </select>
-                </b-col>
-                <b-col sm="12" class="mt-3 d-flex flex-row-reverse">
-                    <b-button type="submit" size="sm" variant="success">Guardar</b-button>
-                </b-col>
-            </b-row>
-        </form>
+        <b-row>
+            <b-col sm="12" class="mt-3">
+                <h2>
+                    Lista
+                </h2>
+            </b-col>
+            <b-col sm="10" class="mt-4">
+                <label for="">Buscar</label>
+                <b-form-input type="text" size="sm" placeholder="Escribe un nombre para búscar"></b-form-input>
+            </b-col>
+            <b-col sm="2" class="mt-4">
+                <b-button type="button" block variant="danger" size="sm" style="margin-top: 31px;">Buscar</b-button>
+            </b-col>
+            <b-col sm="12" class="mt-4">
+                <table class="table table-striped table-bordered" style="font-size: 14px;">
+                    <thead>
+                        <tr>
+                            <th>
+
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </b-col>
+        </b-row>
+        
+
+        <div class="btn_flotante" @click="modalFicha">
+            <i class="fas fa-list"></i>
+        </div>
+
+        <Fichas v-if="modal" v-on:cerrar="modalFicha" />
+
     </b-container>
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex'
+
+import Fichas from './Fichas.vue'
+
 export default {
     name: 'Ingresos',
-    computed:{
-        ...mapState(['iglesias', 'paises'])
+    components:{
+        Fichas
     },
     data() {
         return {
-            dpi: '',
-            nombre: '',
-            iglesia: '',
-            cargo: 'Oveja',
-            pais: ''
+            
+            modal: false
         }
     },
     methods: {
-        async guardar(){
-
-            let formulario = {
-                api: 'miembros',
-                pull: true,
-                formulario: {
-                    dpi: this.dpi,
-                    nombre: this.nombre.toUpperCase(),
-                    iglesia: this.iglesia,
-                    cargo: this.cargo,
-                    pais: this.pais
-                }
-            }
-
-            let a = await this.saveData(formulario)
-            
-            if (a != 'YE') {
-                this.dpi = ''
-                this.nombre = ''
-                this.iglesia = ''
-                this.cargo = 'Oveja'
-                this.pais = ''
-                document.getElementById('dpi_miembro').focus()
-            }
-        },
-        ...mapActions(['saveData'])
+        
+        modalFicha(){
+            this.modal = !this.modal
+        }
     },
     mounted() {
-        document.getElementById('dpi_miembro').focus()
+        
     },
 }
 </script>
 
 <style>
-
+    .btn_flotante{
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        position: absolute;
+        bottom: 20px;
+        right: 20px;
+        background-color: #2C8C99;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        user-select: none;
+        cursor: pointer;
+        transition: .3s ease-in-out;
+    }
+        .btn_flotante:active{
+            background-color: #28464B;
+        }
 </style>

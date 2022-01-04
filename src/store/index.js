@@ -56,7 +56,7 @@ export default new Vuex.Store({
       rutas:[
         {api:'paises', set: 'set_paises'},
         {api:'iglesias', set: 'set_iglesias'},
-        {api: 'miembros', set: 'set_miembros'},
+        //{api: 'miembros', set: 'set_miembros'},
         {api:'ingresos', set: 'set_ingresos'},
       ],
 
@@ -65,7 +65,7 @@ export default new Vuex.Store({
 
       
       paises: [],
-      miembros: [],
+      //miembros: [],
       ingresos: [],
       iglesias: [], // se colocó esta aqui porque como el getter es un async no lo puede leer correctamente el ...mapgetters y no hace el recorrido correspondiente
       filtro_busqueda: '',
@@ -111,9 +111,9 @@ export default new Vuex.Store({
     set_formulario_inscripcion(state, data){
         state.formulario_inscripcion = data
     },
-    set_miembros(state, data){
-        state.miembros = data
-    },
+    // set_miembros(state, data){
+    //     state.miembros = data
+    // },
     set_ingresos(state, data){
         state.ingresos = data
     },
