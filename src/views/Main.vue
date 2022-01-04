@@ -2,7 +2,7 @@
     <div class="contenedor">
         <div class="asidex">
             <div class="icono_menu_a" @click="set_modulo('Academia')">
-                Ac
+                Acx
             </div>
             <div class="icono_menu_a" @click="set_modulo('Configuracion')">
                 Cf
