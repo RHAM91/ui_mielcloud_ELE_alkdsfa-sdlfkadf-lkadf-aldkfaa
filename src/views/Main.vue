@@ -26,7 +26,7 @@
 
         </div>
 
-        <div v-if="update" class="btn_actualizacion">
+        <div v-if="update" @click="pushversion" class="btn_actualizacion">
             Actualizar
         </div>
     </div>
