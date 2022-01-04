@@ -33,7 +33,7 @@
                             <label for="">Cargo</label>
                             <select class="form-control form-control-sm" v-model="cargo">
                                 <option value="">Selecciona</option>
-                                <option value="Oveja">Oveja</option>
+                                <option value="Miembro">Miembro</option>
                                 <option value="Diacono">Diacono</option>
                             </select>
                         </b-col>
@@ -68,7 +68,7 @@ export default {
             dpi: '',
             nombre: '',
             iglesia: '',
-            cargo: 'Oveja',
+            cargo: 'Miembro',
             pais: '',
         }
     },
