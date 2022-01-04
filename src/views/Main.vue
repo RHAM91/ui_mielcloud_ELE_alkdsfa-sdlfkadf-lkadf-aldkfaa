@@ -2,10 +2,10 @@
     <div class="contenedor">
         <div class="asidex">
             <div class="icono_menu_a" @click="set_modulo('Academia')">
-                Ac.
+                <i class="fas fa-bars"></i>
             </div>
             <div class="icono_menu_a" @click="set_modulo('Configuracion')">
-                Cf
+                <i class="fas fa-cog"></i>
             </div>
             <div class="vversion">
                 {{version}}
@@ -171,6 +171,7 @@ export default {
                 justify-content: center;
                 align-items: center;
                 transition: .4s ease;
+                font-size: 20px;
                 /* margin-bottom: 14px; */
                 color: white;
                 cursor: pointer;
