@@ -7,7 +7,9 @@
             <div class="icono_menu_a" @click="set_modulo('Configuracion')">
                 Cf
             </div>
-
+            <div class="vversion">
+                {{version}}
+            </div>
             <b-button type="button" class="btn_logout" size="sm" title="Cerrar Sesión" variant="danger" @click="salir"><i class="fas fa-sign-out-alt"></i></b-button>
 
         </div>
@@ -24,7 +26,9 @@
 
         </div>
 
-
+        <div v-if="update" class="btn_actualizacion">
+            Actualizar
+        </div>
     </div>
 </template>
 
@@ -38,6 +42,8 @@ import store from '../store'
 import VueSocketIOExt from 'vue-socket.io-extended'
 import  io  from 'socket.io-client'
 import axios from 'axios'
+import { ipcRenderer } from 'electron'
+window.ipcRenderer = ipcRenderer
 
 import { mapActions } from 'vuex'
 
@@ -56,6 +62,8 @@ export default {
         return {
             modulo: '',
             sub_menu: '',
+            update: false,
+            version: ''
         }
     },
     methods: {
@@ -106,6 +114,21 @@ export default {
             })
 
         },
+        getVersion(){
+            ipcRenderer.send('app_version')
+
+            ipcRenderer.on('app_version', (event, args)=>{
+                ipcRenderer.removeAllListeners('app_version')
+                this.version = args.version
+            })
+
+            ipcRenderer.on('actualizacion', (event, message)=>{
+                this.update = message
+            })
+        },
+        pushversion(){
+            ipcRenderer.send('ok_update')
+        },
         ...mapActions(['descargar_datos', 'receptor'])
     },
     mounted() {
@@ -113,10 +136,11 @@ export default {
         this.iniciando_conexion()
         this.descargar_datos(this.$socket) // descarga los datos nuevos al iniciar app
         this.receptor() // esta funcion recibe la orden de actulizar un modulo en especifico y descarga los datos cuando haya nueva informacion disponible
-        
+        this.getVersion()
     },
 }
 </script>
+
 
 <style>
 
@@ -232,6 +256,36 @@ export default {
                                     width: 100%;
                                 }
 
+
+    /* BTN PARA ACTUALIZAR */
+
+    .btn_actualizacion{
+        width: 200px;
+        height: 40px;
+        background-color: #3993DD;
+        color: white;
+        position: fixed;
+        bottom: 0;
+        left: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        user-select: none;
+        transition: .2s ease;
+        cursor: pointer;
+    }
+        .btn_actualizacion:active{
+            background-color: #F2A541;
+        }
+
+    .vversion{
+        color: white;
+        font-size: 15px;
+        position: fixed;
+        bottom: 50px;
+        user-select: none;
+    }
 
     /* CSS de modal */
 
