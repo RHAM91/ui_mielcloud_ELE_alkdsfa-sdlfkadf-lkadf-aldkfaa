@@ -43,7 +43,7 @@
                                 {{item.cargo}}
                             </td>
                             <td style="width: 15%;text-align: center;">
-                                <b-button type="button" variant="sm" size="info"><i class="fas fa-info-circle"></i></b-button>
+                                <b-button type="button" variant="sm" size="info" @click="modalDetalle(item.dpi)"><i class="fas fa-info-circle"></i></b-button>
                             </td>
                         </tr>
                     </tbody>
@@ -57,6 +57,7 @@
         </div>
 
         <Fichas v-if="modal" v-on:cerrar="modalFicha" />
+        <Detalle v-if="detalle" :dpi="dpi" v-on:cerrar="modalDetalle" />
 
     </b-container>
 </template>
@@ -64,6 +65,8 @@
 <script>
 
 import Fichas from './Fichas.vue'
+import Detalle from './Detalle.vue'
+
 import axios from 'axios'
 import { IP, PUERTO } from '@/config/parametros'
 import { minix } from '@/components/functions/alertas'
@@ -71,19 +74,29 @@ import { minix } from '@/components/functions/alertas'
 export default {
     name: 'Ingresos',
     components:{
-        Fichas
+        Fichas,
+        Detalle
     },
     data() {
         return {
             campobusqueda: '',
             modal: false,
-            datos: []
+            detalle: false,
+            datos: [],
+            dpi: ''
         }
     },
     methods: {
         
         modalFicha(){
             this.modal = !this.modal
+            
+        },
+        modalDetalle(dp){
+            this.detalle = !this.detalle
+            this.dpi = dp == undefined ? '' : dp
+            this.datos = []
+            document.getElementById('campobusquedalista').focus()
         },
         async buscar(){
 
