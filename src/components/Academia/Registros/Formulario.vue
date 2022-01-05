@@ -4,7 +4,7 @@
             <b-row>
                 <b-col sm="12" class="mt-3">
                     <h3>
-                        Ingresos
+                        Entradas
                     </h3>
                 </b-col>
                 <b-col sm="12" class="mt-4">

@@ -16,7 +16,15 @@
                     <i class="fas fa-dollar-sign"></i>
                 </div>
                 <div class="submenu_modulo_texto" @click="set_submodulo('formulario')">
-                    Ingresos
+                    Entradas
+                </div>
+            </div>
+            <div class="submenu_modulo">
+                <div class="submenu_modulo_icon">
+                    <i class="fas fa-search"></i>
+                </div>
+                <div class="submenu_modulo_texto" @click="set_submodulo('consultas')">
+                    Consultas
                 </div>
             </div>
 
@@ -57,7 +65,8 @@
                 <Pagos v-if="sub_modulo == 'pagos'" />
                 <Formulario v-if="sub_modulo == 'formulario'" />
                 <Miembros v-if="sub_modulo == 'miembros'" />
-                
+                <Consultas v-if="sub_modulo == 'consultas'" />
+
             </div>
         </div>
     </div>
@@ -68,12 +77,14 @@
 import Pagos from './Listados/Pagos.vue'
 import Miembros from './Miembros/Formulario.vue'
 import Formulario from './Registros/Formulario.vue'
+import Consultas from './Registros/Consultas.vue'
 
 export default {
     components:{
         Pagos,
         Formulario,
-        Miembros
+        Miembros,
+        Consultas
     },
     data() {
         return {
