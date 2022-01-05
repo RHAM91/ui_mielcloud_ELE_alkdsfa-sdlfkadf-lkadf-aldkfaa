@@ -36,7 +36,7 @@
                                 {{item.bloqueo | estado}}
                             </td>
                             <td style="text-align: center;">
-                                <b-button type="button" size="sm" variant="primary"><i class="fas fa-pencil-alt"></i></b-button>
+                                <b-button type="button" size="sm" variant="primary" @click="modalActualizar(item.id)"><i class="fas fa-pencil-alt"></i></b-button>
                                 <b-button type="button" size="sm" style="margin-left: 10px;" @click="borrar(item.id)" variant="danger"><i class="fas fa-trash-alt"></i></b-button>
                             </td>
                         </tr>
@@ -44,6 +44,9 @@
                 </table>
             </b-col>
         </b-row>
+
+        <ActualizarUsuario v-if="actualizacion" :idu="idu" v-on:cerrar="modalActualizar" />
+
     </b-container>
 </template>
 
@@ -52,9 +55,13 @@ import { mapActions } from 'vuex'
 import {IP, PUERTO} from '@/config/parametros'
 import axios from 'axios'
 import { pregunta } from '@/components/functions/alertas'
+import ActualizarUsuario from './Actualizacion.vue'
 
 export default {
     name: 'Usuarios',
+    components:{
+        ActualizarUsuario
+    },
     filters:{
         estado: function(value){
             if (value == 0) {
@@ -66,7 +73,9 @@ export default {
     },
     data() {
         return {
-            usuarios: []
+            usuarios: [],
+            actualizacion: false,
+            idu: ''
         }
     },
     methods: {
@@ -93,8 +102,12 @@ export default {
             
 
         },
-        async actualizar(){
-
+        modalActualizar(id){
+            this.actualizacion = !this.actualizacion
+            this.idu = id
+            if (this.actualizacion == false) {
+                this.obtenerUsuarios()
+            }
         },
         ...mapActions(['deleteData'])
     },
