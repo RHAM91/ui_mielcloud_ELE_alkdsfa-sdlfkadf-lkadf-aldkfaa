@@ -62,6 +62,15 @@
                 </div>
             </div>
 
+            <div class="submenu_modulo">
+                <div class="submenu_modulo_icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="submenu_modulo_texto" @click="set_submodulo('usuarios')">
+                    Usuarios
+                </div>
+            </div>
+
             <!-- <div class="submenu_titulo">
                 Registro Alumnos
             </div>
@@ -91,6 +100,7 @@
                 <Docentes v-if="sub_modulo == 'docentes'" /> -->
                 <Pastores v-if="sub_modulo == 'pastores'" />
                 <Iglesias v-if="sub_modulo =='iglesias'" />
+                <Usuarios v-if="sub_modulo == 'usuarios'" />
                 <!-- <Formulario v-if="sub_modulo == 'Formulario'" />
                 <Listado v-if="sub_modulo == 'Listado'"/>
                 <Registro v-if="sub_modulo == 'Registro'"/> -->
@@ -107,12 +117,14 @@ import Paises from './Paises/Paises.vue'
 // import Docentes from './Docentes/Docentes.vue'
 import Pastores from './Pastores/Pastores.vue'
 import Iglesias from './Iglesias/Iglesias.vue'
+import Usuarios from './Usuarios/Usuarios.vue'
 
 export default {
     components:{
         Paises,
         Pastores,
-        Iglesias
+        Iglesias,
+        Usuarios
     },
     data() {
         return {
