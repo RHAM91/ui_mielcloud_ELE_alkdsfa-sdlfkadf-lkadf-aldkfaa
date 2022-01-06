@@ -8,24 +8,24 @@
             </b-col>
             <b-col sm="2" class="mt-3">
                 <label for="">Tipo</label>
-                <select class="form-control form-control-sm" required >
+                <select class="form-control form-control-sm" required v-model="tipoEntrada">
                     <option value="">Selecciona</option>
                     <option value="diezmo">Diezmo</option>
                     <option value="ofrenda">Ofrenda</option>
                     <option value="donacion">Donación</option>
-                    <option value="donacion">Todo</option>
+                    <option value="todo">Todo</option>
                 </select>
             </b-col>
             <b-col sm="4" class="mt-3">
                 <label for="">Del</label>
-                <b-form-input type="date" size="sm" variant="sm"></b-form-input>
+                <b-form-input type="date" size="sm" v-model="fecha_del" variant="sm"></b-form-input>
             </b-col>
             <b-col sm="4" class="mt-3">
                 <label for="">Al</label>
-                <b-form-input type="date" size="sm" variant="sm"></b-form-input>
+                <b-form-input type="date" size="sm" v-model="fecha_al" variant="sm"></b-form-input>
             </b-col>
             <b-col sm="2" class="mt-3">
-                <b-button type="button" variant="sm" style="margin-top: 31px;" @click="obtenerdatos" block size="info">Consultar</b-button>
+                <b-button type="button" variant="sm" style="margin-top: 31px;" @click="filtrarDatos" block size="info">Consultar</b-button>
             </b-col>
             
             <b-col sm="12" class="mt-4">
@@ -67,6 +67,7 @@
 import {IP, PUERTO} from '@/config/parametros'
 import axios from 'axios'
 import moment from 'moment'
+import { minix } from '@/components/functions/alertas'
 
 export default {
     name: 'Consultas',
@@ -82,6 +83,9 @@ export default {
     },
     data() {
         return {
+            tipoEntrada: '',
+            fecha_del: moment(Date.now()).format('YYYY-MM-DD'),
+            fecha_al: moment(Date.now()).format('YYYY-MM-DD'),
             lista: [],
             perPage: 15,
             currentPage: 1,
@@ -115,9 +119,27 @@ export default {
         }
     },
     methods: {
-        async obtenerdatos(){
-            let l = await axios.get(`http://${IP}:${PUERTO}/api/ingresos`, this.$store.state.token)
-            this.lista = l.data
+        async filtrarDatos(){
+
+            if (this.tipoEntrada == '' || this.fecha_del == '' || this.fecha_al == '') {
+                minix({icon: 'error', mensaje: 'Todos los campos son necesarios', tiempo: 3000})
+            }else{
+
+                let f = {
+                    tipo: this.tipoEntrada,
+                    del: this.fecha_del,
+                    al: this.fecha_al
+                }
+    
+                let l = await axios.post(`http://${IP}:${PUERTO}/api/ingresos/consultaportipoentrada`, f, this.$store.state.token)
+    
+                if (l.status == 200) {
+                    this.lista = l.data
+                }else{
+                    minix({icon: 'info', mensaje: l.data.message, tiempo: 3000})
+                }
+            }
+
         }
     },
 }
