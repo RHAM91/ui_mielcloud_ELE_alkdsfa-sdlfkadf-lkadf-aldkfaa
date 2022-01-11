@@ -8,7 +8,6 @@ import http from 'http'
 import fs from 'fs'
 import { exec } from 'child_process'
 const child = require('child_process').execFile
-import axios from 'axios'
 import os from 'os'
 import macaddress from 'macaddress'
 import { stderr, stdout } from 'process'
@@ -52,6 +51,24 @@ function buscarActualizacion(){
   })
 }
 
+// --> INICIANDO MODULO PARA API
+
+async function InciandoAPI(){
+
+  let path = 'C:\\sam\\modulo.exe'
+  //console.log('--> INICIANDO MODULO....')
+  child(path, function(err, data){
+
+    if(err){
+      console.error(err)
+      return
+    }
+    console.log(data.toString())
+    console.log('--> MODULO INICIADO....')
+    
+  })
+}
+
 async function createWindow() {
   // Create the browser window.
   win = new BrowserWindow({
@@ -80,7 +97,6 @@ async function createWindow() {
   }
 
   actualizacion = setInterval(buscarActualizacion, 10 * 60 * 1000) // para cambiar el tiempo del intervalo em minutos, modificar solo el primer 60
-
 }
 
 // Quit when all windows are closed.
@@ -111,6 +127,7 @@ app.on('ready', async () => {
     // }
   }
   createWindow()
+  InciandoAPI()
 })
 
 
@@ -126,25 +143,6 @@ ipcMain.on('app_version', (event)=>{
 
 ipcMain.on('ok_update', (event) =>{ 
   autoUpdater.quitAndInstall()
-})
-
-
-// --> INICIANDO MODULO PARA API
-
-ipcMain.on('IniciandoModuloAPI', (event)=>{
-
-
-  let path = 'C:\\sam\\modulo.exe'
-  console.log('--> INICIANDO MODULO....')
-  child(path, function(err, data){
-    if(err){
-      console.error(err)
-      return
-    }
-    console.log(data.toString())
-    console.log('--> MODULO INICIADO....')
-  })
-
 })
 
 

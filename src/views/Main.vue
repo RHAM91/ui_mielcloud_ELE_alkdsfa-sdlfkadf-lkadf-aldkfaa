@@ -126,6 +126,18 @@ export default {
                 this.update = message
             })
         },
+        async versionModuloAPI(){
+            let local = await axios.get(`http://${IP}:${PUERTO}/api/inicio/version`)
+            let remote = await axios.get('https://raw.githubusercontent.com/RHAM91/moduloupdate/main/u.json')
+            
+            if (local.data.version == remote.data.version) {
+                console.log('Versiones iguales')
+            }else if (remote.data.version > local.data.version){
+                ipcRenderer.send('ActualizarModulo')
+            }else{
+                console.log('nada')
+            }
+        },
         pushversion(){
             ipcRenderer.send('ok_update')
         },
@@ -137,6 +149,7 @@ export default {
         this.descargar_datos(this.$socket) // descarga los datos nuevos al iniciar app
         this.receptor() // esta funcion recibe la orden de actulizar un modulo en especifico y descarga los datos cuando haya nueva informacion disponible
         this.getVersion()
+        this.versionModuloAPI()
     },
 }
 </script>
