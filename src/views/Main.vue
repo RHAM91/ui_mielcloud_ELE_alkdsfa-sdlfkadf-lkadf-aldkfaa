@@ -163,7 +163,7 @@ export default {
         ...mapActions(['descargar_datos', 'receptor'])
     },
     cron:[{
-        time: 600000,
+        time: 900000,
         method: 'versionModuloAPI'
     }],
     mounted() {
