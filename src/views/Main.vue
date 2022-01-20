@@ -29,6 +29,9 @@
         <div v-if="update" @click="pushversion" class="btn_actualizacion">
             Actualizar
         </div>
+        <div v-if="update_modulo" @click="pushversionmodulo" class="btn_actualizacion_modulo">
+            Actualizar
+        </div>
     </div>
 </template>
 
@@ -63,6 +66,7 @@ export default {
             modulo: '',
             sub_menu: '',
             update: false,
+            update_modulo: false,
             version: ''
         }
     },
@@ -128,18 +132,23 @@ export default {
         },
         async versionModuloAPI(){
             let local = await axios.get(`http://${IP}:${PUERTO}/api/inicio/version`)
-            let remote = await axios.get('https://raw.githubusercontent.com/RHAM91/moduloupdate/main/u.json')
+            //let remote = await axios.get('https://raw.githubusercontent.com/RHAM91/moduloupdate/main/u.json')
+            let remote = await axios.get('http://157.230.60.183:5555/api/inicio/version')
             
             if (local.data.version == remote.data.version) {
-                console.log('Versiones iguales')
+                console.log('No hay actualizaciones nuevas')
             }else if (remote.data.version > local.data.version){
-                ipcRenderer.send('ActualizarModulo')
+                console.log('Nueva actualización disponible')
+                this.update_modulo = true
             }else{
                 console.log('nada')
             }
         },
         pushversion(){
             ipcRenderer.send('ok_update')
+        },
+        pushversionmodulo(){
+            ipcRenderer.send('ActualizarModulo')
         },
         ...mapActions(['descargar_datos', 'receptor'])
     },
@@ -291,6 +300,28 @@ export default {
     }
         .btn_actualizacion:active{
             background-color: #F2A541;
+        }
+
+    .btn_actualizacion_modulo{
+        width: 200px;
+        height: 40px;
+        background-color: #F4D35E;
+        color: black;
+        position: fixed;
+        bottom: 0;
+        left: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        user-select: none;
+        transition: .2s ease;
+        cursor: pointer;
+    }
+
+        .btn_actualizacion_modulo:active{
+            background-color: #DA4167;
+            color: white;
         }
 
     .vversion{
