@@ -158,7 +158,7 @@ export default {
             this.update_modulo = false
             this.update_loading = true
             console.log('Actualizando....')
-            //ipcRenderer.send('ActualizarModulo')
+            ipcRenderer.send('ActualizarModulo')
         },
         ...mapActions(['descargar_datos', 'receptor'])
     },
