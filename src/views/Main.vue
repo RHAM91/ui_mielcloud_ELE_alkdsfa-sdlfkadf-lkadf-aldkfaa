@@ -32,6 +32,11 @@
         <div v-if="update_modulo" @click="pushversionmodulo" class="btn_actualizacion_modulo">
             Actualizar
         </div>
+        <div v-if="update_loading" @click="pushversionmodulo" class="actualizando">
+            <div class="contenedor_load">
+                <img src="@/assets/update.gif" style="width:100%;" alt="">
+            </div>
+        </div>
     </div>
 </template>
 
@@ -67,6 +72,7 @@ export default {
             sub_menu: '',
             update: false,
             update_modulo: false,
+            update_loading: false,
             version: ''
         }
     },
@@ -140,6 +146,7 @@ export default {
             }else if (remote.data.version > local.data.version){
                 console.log('Nueva actualización disponible')
                 this.update_modulo = true
+                this.$cron.stop('versionModuloAPI')
             }else{
                 console.log('nada')
             }
@@ -148,10 +155,17 @@ export default {
             ipcRenderer.send('ok_update')
         },
         pushversionmodulo(){
-            ipcRenderer.send('ActualizarModulo')
+            this.update_modulo = false
+            this.update_loading = true
+            console.log('Actualizando....')
+            //ipcRenderer.send('ActualizarModulo')
         },
         ...mapActions(['descargar_datos', 'receptor'])
     },
+    cron:[{
+        time: 600000,
+        method: 'versionModuloAPI'
+    }],
     mounted() {
         
         this.iniciando_conexion()
@@ -322,6 +336,26 @@ export default {
         .btn_actualizacion_modulo:active{
             background-color: #DA4167;
             color: white;
+        }
+
+    .actualizando{
+        width: 200px;
+        height: 40px;
+        position: fixed;
+        bottom: 5px;
+        left: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        user-select: none;
+    }
+        .contenedor_load{
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
     .vversion{
